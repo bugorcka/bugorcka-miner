@@ -13,8 +13,11 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
 ## Features
 
 - **BTX / MatMul v4** (`btx_v2`) — the current live algorithm (Epoch A, v4 chain)
-- NVIDIA GPUs from **Turing (RTX 20xx) up to Blackwell (RTX 50xx)** — incl. Ada, Hopper
-  and datacenter Blackwell (sm_75 / 86 / 89 / 90 / 100 / 120)
+- NVIDIA GPUs: **Turing and newer** — GeForce RTX 20xx / 30xx / 40xx / 50xx.
+  Verified on real hardware: RTX 2060 SUPER, 3080 Ti, 5070 Ti, 5080.
+  Pascal (GTX 10xx) and Volta (V100) are not supported — the algorithm needs the
+  int8 tensor instructions introduced with Turing. Datacenter cards
+  (A100 / H100 / B100) are coming in the next release
 - Pool mining (TCP / SSL-TLS stratum), **own stratum-bridge dialect**, and **solo mining**
   straight against your coin daemon over JSON-RPC
 - Live **TUI dashboard** (hashrate sparkline, per-GPU temps/fans/power, pool status)
@@ -41,8 +44,8 @@ Grab the latest from **[Releases](../../releases/latest)**:
 | `bugorcka-vX.Y.Z_..._hiveos_ub20.tar.gz` | HiveOS stock images (recommended) |
 | `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS newer Ubuntu 22 based images |
 
-Requirements: NVIDIA driver new enough for CUDA 12 runtime (R525+; R570+ recommended,
-required for RTX 50xx).
+Requirements: a recent NVIDIA driver (for RTX 50xx use the newest available).
+No CUDA Toolkit needed on the rig.
 
 ## Quick start
 
@@ -131,6 +134,11 @@ Other:
 
 ## Notes
 
+- **First start on a new card**: the miner auto-tunes its GEMM configuration for a few
+  seconds and caches the result (`~/.cache/bugorcka` on Linux,
+  `%LOCALAPPDATA%\bugorcka` on Windows). Hashrate is lower during that warm-up —
+  it happens once per card; the cache invalidates itself on miner version, GPU or
+  clock changes.
 - Antivirus software commonly flags **any** GPU miner as a PUA — the binaries here
   are exactly what the Releases page publishes, nothing else. Add an exclusion if needed.
 - Multi-GPU rigs: one instance drives all cards; separate nonce ranges per card,
