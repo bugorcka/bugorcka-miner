@@ -13,7 +13,8 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
 ## Features
 
 - **BTX / MatMul v4** (`btx_v2`) — the current live algorithm (Epoch A, v4 chain)
-- NVIDIA GPUs from **Pascal (GTX 10xx) up to Blackwell (RTX 50xx)**, CMP/mining cards included
+- NVIDIA GPUs from **Turing (RTX 20xx) up to Blackwell (RTX 50xx)** — incl. Ada, Hopper
+  and datacenter Blackwell (sm_75 / 86 / 89 / 90 / 100 / 120)
 - Pool mining (TCP / SSL-TLS stratum), **own stratum-bridge dialect**, and **solo mining**
   straight against your coin daemon over JSON-RPC
 - Live **TUI dashboard** (hashrate sparkline, per-GPU temps/fans/power, pool status)
@@ -34,11 +35,11 @@ Grab the latest from **[Releases](../../releases/latest)**:
 
 | Asset | Platform |
 |---|---|
-| `bugorcka-vX.Y.Z_win64.zip` | Windows 10/11 x64 (example `start.bat` inside) |
-| `bugorcka-vX.Y.Z_linux_ubuntu22.tar.gz` | Ubuntu 22.04+ / glibc 2.35+ distros |
-| `bugorcka-vX.Y.Z_linux_ubuntu20.tar.gz` | Ubuntu 18.04/20.04+, older distros (static OpenSSL) |
-| `bugorcka-vX.Y.Z_hiveos_ub20.tar.gz` | HiveOS stock images (recommended) |
-| `bugorcka-vX.Y.Z_hiveos_ub22.tar.gz` | HiveOS newer Ubuntu 22 based images |
+| `bugorcka-vX.Y.Z_..._win64.zip` | Windows 10/11 x64 (example `start.bat` inside) |
+| `bugorcka-vX.Y.Z_..._linux_ubuntu22.tar.gz` | Ubuntu 22.04+ / glibc 2.35+ distros |
+| `bugorcka-vX.Y.Z_..._linux_ubuntu20.tar.gz` | Ubuntu 18.04/20.04+, older distros (static OpenSSL) |
+| `bugorcka-vX.Y.Z_..._hiveos_ub20.tar.gz` | HiveOS stock images (recommended) |
+| `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS newer Ubuntu 22 based images |
 
 Requirements: NVIDIA driver new enough for CUDA 12 runtime (R525+; R570+ recommended,
 required for RTX 50xx).
@@ -73,8 +74,11 @@ bugorcka -address btx1qyourwallet -rpcconnect 127.0.0.1
 
 Flight Sheet → Miner → **Custom**, then:
 
-- **Miner name:** `bugorcka`
-- **Installation URL:** link to the `bugorcka-vX.Y.Z_hiveos_ub20.tar.gz` asset from Releases
+- **Installation URL** (Hive fills the miner name in as `bugorcka` from it):
+
+  ```
+  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.0.2-alfa38/bugorcka-v0.0.2_alfa38_hiveos_ub20.tar.gz
+  ```
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
 - **Pool URL:** your pool / bridge `host:port`
 - **Extra config arguments:** any CLI flags, single line (e.g. `-i 18`)
