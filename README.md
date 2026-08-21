@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" alt="bugorcka" width="320">
+</p>
+
 # bugorcka
 
 **High-performance CUDA GPU miner for BTX** (MatMul v4, algo `btx_v2`).
