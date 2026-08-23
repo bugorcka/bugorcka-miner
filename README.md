@@ -28,9 +28,13 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
 
 ## Dev fee
 
-**3%** of mining time (default). One cycle is 100 minutes, so the percent equals
-minutes per cycle. Every switch to the fee and back is announced in the log.
-`-df <n>` can raise it if you want to support development; values ≤ 3 mean 3.
+Each algorithm has its own default rate, set independently as new algorithms
+land. One cycle is 100 minutes, so the percent equals minutes per cycle; every
+switch to the fee and back is announced in the log.
+
+| Algorithm | Default | Raise it |
+|---|---|---|
+| `btx_v2` | **2%** | `-df <n>` — values ≤ 2 mean 2, higher raises it |
 
 ## Downloads
 
@@ -125,7 +129,7 @@ Output:
   -api-port <port>          Serve JSON mining stats on http://127.0.0.1:<port>/.
 
 Developer fee:
-  -df, --devfee <n>         Developer fee, percent of mining time (default: 3).
+  -df, --devfee <n>         Developer fee, percent of mining time (default: 2, algorithm-specific).
 
 Other:
   -h, --help                Show help and exit.
