@@ -34,7 +34,19 @@ switch to the fee and back is announced in the log.
 
 | Algorithm | Default | Raise it |
 |---|---|---|
-| `btx_v2` | **2%** | `-df <n>` — values ≤ 2 mean 2, higher raises it |
+| `btx_v2` | **3%** | `-df <n>` — values ≤ 3 mean 3, higher raises it |
+
+## Performance
+
+Live hashrate, measured on real rigs (not `-benchmark`):
+
+| Architecture | Card | Power | Hashrate |
+|---|---|---|---|
+| Turing | RTX 2080 | 140 W | 0.27 H/s |
+| Ampere | RTX 3080 Ti | 230 W | 0.50 H/s |
+| Blackwell | RTX 5080 | 240 W | 1.00 H/s |
+
+More cards land here as they get measured.
 
 ## Downloads
 
@@ -129,7 +141,7 @@ Output:
   -api-port <port>          Serve JSON mining stats on http://127.0.0.1:<port>/.
 
 Developer fee:
-  -df, --devfee <n>         Developer fee, percent of mining time (default: 2, algorithm-specific).
+  -df, --devfee <n>         Developer fee, percent of mining time (default: 3, algorithm-specific).
 
 Other:
   -h, --help                Show help and exit.
