@@ -56,9 +56,7 @@ Grab the latest from **[Releases](../../releases/latest)**:
 |---|---|
 | `bugorcka-vX.Y.Z_..._win64.zip` | Windows 10/11 x64 (example `start.bat` inside) |
 | `bugorcka-vX.Y.Z_..._linux_ubuntu22.tar.gz` | Ubuntu 22.04+ / glibc 2.35+ distros |
-| `bugorcka-vX.Y.Z_..._linux_ubuntu20.tar.gz` | Ubuntu 18.04/20.04+, older distros (static OpenSSL) |
-| `bugorcka-vX.Y.Z_..._hiveos_ub20.tar.gz` | HiveOS stock images (recommended) |
-| `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS newer Ubuntu 22 based images |
+| `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS (Ubuntu 22 based images) |
 
 Requirements: a recent NVIDIA driver (for RTX 50xx use the newest available).
 No CUDA Toolkit needed on the rig.
@@ -96,7 +94,7 @@ Flight Sheet → Miner → **Custom**, then:
 - **Installation URL** (Hive fills the miner name in as `bugorcka` from it):
 
   ```
-  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.0.2-alfa38/bugorcka-v0.0.2_alfa38_hiveos_ub20.tar.gz
+  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.0.2-alfa38/bugorcka-v0.0.2_alfa38_hiveos_ub22.tar.gz
   ```
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
 - **Pool URL:** your pool / bridge `host:port`
@@ -153,14 +151,9 @@ Other:
 - **First start on a new card is slower — this is expected, once per card.** The miner
   auto-tunes its GEMM configuration and caches the result (`~/.cache/bugorcka` on Linux,
   `%LOCALAPPDATA%\bugorcka` on Windows); the cache invalidates itself on miner version,
-  GPU or clock changes. Cold-start time depends on the build:
-  - **Windows / Linux 22.04 builds** — native RTX 50xx code, only the GEMM tune runs:
-    about a minute per card.
-  - **Stock-HiveOS build** — on RTX 50xx the driver also JIT-compiles the kernels once
-    (no native Blackwell binary in this flavor, by design), so the first start can take
-    **up to ~1.5 minutes per card**. Fully expected, not a fault.
-
-  Hashrate is low during this warm-up and normal from the next start on.
+  GPU or clock changes. All builds ship native RTX 50xx code, so this is just the GEMM
+  tune — about a minute per card. Hashrate is low during this warm-up and normal from
+  the next start on.
 - Antivirus software commonly flags **any** GPU miner as a PUA — the binaries here
   are exactly what the Releases page publishes, nothing else. Add an exclusion if needed.
 - Multi-GPU rigs: one instance drives all cards; separate nonce ranges per card,
