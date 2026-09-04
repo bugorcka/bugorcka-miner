@@ -28,9 +28,7 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
 
 ## Dev fee
 
-Each algorithm has its own default rate, set independently as new algorithms
-land. One cycle is 100 minutes, so the percent equals minutes per cycle; every
-switch to the fee and back is announced in the log.
+Each algorithm has its own default rate, set independently as new algorithms land.
 
 | Algorithm | Default | Raise it |
 |---|---|---|
