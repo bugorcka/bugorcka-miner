@@ -4,7 +4,7 @@
 
 # bugorcka
 
-**High-performance CUDA GPU miner for BTX** (MatMul v4, algo `btx_v2`).
+**High-performance CUDA GPU miner for BTX** (MatMul v4, algo `btxv4`).
 Windows / Linux / HiveOS. Closed source, binary releases only.
 
 > Built from scratch and tuned at SASS level — beats every public BTX miner
@@ -12,7 +12,7 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
 
 ## Features
 
-- **BTX / MatMul v4** (`btx_v2`) — the current live algorithm (Epoch A, v4 chain)
+- **BTX / MatMul v4** (`btxv4`) — the current live algorithm (Epoch A, v4 chain)
 - NVIDIA GPUs: **Turing and newer** — GeForce RTX 20xx / 30xx / 40xx / 50xx.
   Verified on real hardware: RTX 2060 SUPER, 3080 Ti, 5070 Ti, 5080.
   Pascal (GTX 10xx) and Volta (V100) are not supported — the algorithm needs the
@@ -34,7 +34,7 @@ switch to the fee and back is announced in the log.
 
 | Algorithm | Default | Raise it |
 |---|---|---|
-| `btx_v2` | **3%** | `-df <n>` — values ≤ 3 mean 3, higher raises it |
+| `btxv4` | **2%** | `-df <n>` — values ≤ 2 mean 2, higher raises it |
 
 ## Performance
 
@@ -61,12 +61,25 @@ Grab the latest from **[Releases](../../releases/latest)**:
 Requirements: a recent NVIDIA driver (for RTX 50xx use the newest available).
 No CUDA Toolkit needed on the rig.
 
+## Supported pools
+
+- **LuckyPool** — https://btx.luckypool.io/
+  - EU endpoint: **`btx-eu.lproute.com:8666`** — works in both **SSL/TLS** and **plain TCP** mode.
+- Your own **stratum-bridge** (default `bridge` dialect), or any other BTX stratum pool.
+- **Solo** straight against your coin daemon over JSON-RPC.
+
 ## Quick start
 
-Pool:
+Pool (LuckyPool, SSL/TLS):
 
 ```
-bugorcka -o stratum+ssl://btx.ninjaraider.com:44921 -u btx1qyourwallet -w rig1
+bugorcka -o stratum+ssl://btx-eu.lproute.com:8666 -u btx1qyourwallet -w rig1
+```
+
+Same pool over plain TCP:
+
+```
+bugorcka -o stratum+tcp://btx-eu.lproute.com:8666 -u btx1qyourwallet -w rig1
 ```
 
 Pick specific GPUs, half load, log to file:
@@ -89,16 +102,27 @@ bugorcka -address btx1qyourwallet -rpcconnect 127.0.0.1
 
 ## HiveOS setup
 
-Flight Sheet → Miner → **Custom**, then:
+Flight Sheet → Miner → **Custom**, then fill in (LuckyPool example):
 
-- **Installation URL** (Hive fills the miner name in as `bugorcka` from it):
+- **Miner name:** `bugorcka`
+- **Installation URL** — the `_hiveos_ub22.tar.gz` asset from
+  [Releases](../../releases/latest), e.g.:
 
   ```
-  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.0.2-alfa38/bugorcka-v0.0.2_alfa38_hiveos_ub22.tar.gz
+  https://github.com/bugorcka/bugorcka-miner/releases/download/vX.Y.Z/bugorcka-vX.Y.Z_hiveos_ub22.tar.gz
   ```
+- **Pool URL:** `btx-eu.lproute.com:8666` (add `stratum+ssl://` for TLS)
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
-- **Pool URL:** your pool / bridge `host:port`
-- **Extra config arguments:** any CLI flags, single line (e.g. `-i 18`)
+- **Extra config arguments:** `-a btxv4` (append any other flags, single line, e.g. `-a btxv4 -i 18`)
+
+Or import the ready flight sheet as JSON (set your own wallet, worker and the
+release **Installation URL**):
+
+```json
+{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"URL","user_config":"-a btxv4 "},"pool_geo":[]}]}
+```
+
+Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TLS.
 
 Hashrate and per-GPU stats show up natively in the Hive dashboard
 (the package wires the JSON stats API to the Hive agent).
@@ -109,7 +133,7 @@ Hashrate and per-GPU stats show up natively in the Hive dashboard
 bugorcka -h
 
 Pool:
-  -o <url>                  Pool address, e.g. stratum+ssl://btx.ninjaraider.com:44921
+  -o <url>                  Pool address, e.g. stratum+ssl://btx-eu.lproute.com:8666
                              (host:port with no scheme also works, plain TCP). Any scheme
                              containing ssl/tls enables TLS.
   -u <wallet>               Your BTX payout address (btx1...).
@@ -139,11 +163,11 @@ Output:
   -api-port <port>          Serve JSON mining stats on http://127.0.0.1:<port>/.
 
 Developer fee:
-  -df, --devfee <n>         Developer fee, percent of mining time (default: 3, algorithm-specific).
+  -df, --devfee <n>         Developer fee, percent of mining time (default: 2, algorithm-specific).
 
 Other:
   -h, --help                Show help and exit.
-  -a, --algo <name>         Mining algorithm (btx_v2, the default).
+  -a, --algo <name>         Mining algorithm (btxv4, the default).
 ```
 
 ## Notes
