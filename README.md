@@ -18,8 +18,7 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
   Pascal (GTX 10xx) and Volta (V100) are not supported — the algorithm needs the
   int8 tensor instructions introduced with Turing. Datacenter cards
   (A100 / H100 / B100) are coming in the next release
-- Pool mining (TCP / SSL-TLS stratum), **own stratum-bridge dialect**, and **solo mining**
-  straight against your coin daemon over JSON-RPC
+- Pool mining (TCP / SSL-TLS stratum), including our **own stratum-bridge dialect**
 - Live **TUI dashboard** (hashrate sparkline, per-GPU temps/fans/power, pool status)
   or plain streaming log for files and HiveOS
 - **JSON stats API** (`-api-port`) for HiveOS and external monitors
@@ -64,7 +63,6 @@ No CUDA Toolkit needed on the rig.
 - **LuckyPool** — https://btx.luckypool.io/
   - EU endpoint: **`btx-eu.lproute.com:8666`** — works in both **SSL/TLS** and **plain TCP** mode.
 - Your own **stratum-bridge** (default `bridge` dialect), or any other BTX stratum pool.
-- **Solo** straight against your coin daemon over JSON-RPC.
 
 ## Quick start
 
@@ -90,12 +88,6 @@ Benchmark (no pool needed):
 
 ```
 bugorcka -benchmark -seconds 20
-```
-
-Solo against your own node:
-
-```
-bugorcka -address btx1qyourwallet -rpcconnect 127.0.0.1
 ```
 
 ## HiveOS setup
@@ -138,14 +130,6 @@ Pool:
   -w, --worker <name>       Worker name, sent as "WALLET.name" (default: rig1).
       --pool-protocol <d>   Pool dialect: bridge (default), btxpool, stratum.
   -p <pass>                 Pool password (default: x -- BTX pools ignore it).
-
-Solo (JSON-RPC to your own coin daemon):
-  -address <addr>           Payout address for the coinbase reward.
-  -chain <main|test|regtest> Network to mine on (default: main).
-  -rpcconnect <host>        Daemon RPC host (default: 127.0.0.1).
-  -rpcport <port>           Daemon RPC port (default: the algorithm's own port).
-  -rpcuser / -rpcpassword   RPC credentials (default: read the daemon's .cookie file).
-  -rpccookiefile <path>     Path to the daemon's .cookie file.
 
 GPUs and load:
   -d, --devices <csv>       CUDA device indices to mine on, e.g. 0,1,2 (default: all).
