@@ -165,3 +165,9 @@ Other:
 - Multi-GPU rigs: one instance drives all cards; separate nonce ranges per card,
   no duplicate shares.
 - Questions, bug reports, feature requests → [Issues](../../issues).
+
+## License
+
+(c) 2026 Bugorcka. All rights reserved. Proprietary software — see [LICENSE](LICENSE).
+Third-party components and their licenses are listed in
+[THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).
