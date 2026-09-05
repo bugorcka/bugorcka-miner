@@ -1,0 +1,44 @@
+Bugorcka Miner — Proprietary Software License
+Copyright (c) 2026 Bugorcka. All rights reserved.
+
+This software, including its binaries, GPU kernels, and all components
+(the "Software"), is the proprietary property of Bugorcka (the "Author").
+It is licensed, not sold.
+
+1. GRANT. Subject to this License, the Author grants you a limited,
+   non-exclusive, non-transferable, revocable license to run unmodified
+   copies of the Software for cryptocurrency mining. No other rights are
+   granted, expressly or by implication.
+
+2. RESTRICTIONS. You may not, in whole or in part:
+   (a) reverse engineer, decompile, disassemble, or otherwise attempt to
+       derive the source code, algorithms, or internal design of the Software;
+   (b) modify, adapt, translate, or create derivative works of the Software;
+   (c) redistribute, sublicense, sell, rent, lease, or publish the Software;
+   (d) remove, alter, or obscure any copyright, license, or attribution notice;
+   (e) circumvent, disable, or tamper with any protection, integrity, or
+       developer-fee mechanism of the Software.
+   These restrictions apply except to the extent, and only to the extent, that
+   they are prohibited by applicable mandatory law (for example, reverse
+   engineering strictly necessary to achieve interoperability where that right
+   cannot be lawfully excluded).
+
+3. DEVELOPER FEE. The Software mines on behalf of the Author for a small
+   percentage of mining time (the "developer fee", currently 2%), as described
+   in the accompanying README. The developer fee is a disclosed and integral
+   part of the Software. Interfering with, redirecting, or disabling it is a
+   material breach of this License.
+
+4. THIRD-PARTY COMPONENTS. The Software includes third-party components that
+   are licensed under their own terms; those terms govern those components.
+   See THIRD-PARTY-NOTICES.
+
+5. NO WARRANTY. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE AUTHOR
+   DISCLAIMS ALL WARRANTIES AND SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING
+   FROM OR RELATED TO THE USE OF THE SOFTWARE.
+
+6. TERMINATION. This License terminates automatically upon any breach. Upon
+   termination you must cease all use and destroy all copies of the Software.
+
+Contact / notices: https://github.com/bugorcka/bugorcka-miner
