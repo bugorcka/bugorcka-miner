@@ -1,4 +1,4 @@
-THIRD-PARTY NOTICES — Bugorcka Miner (v0.1.2)
+THIRD-PARTY NOTICES — Bugorcka Miner (v0.1.4)
 =================================================
 
 The Bugorcka Miner ("the Software") includes or links the third-party
