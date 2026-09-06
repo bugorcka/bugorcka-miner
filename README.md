@@ -99,7 +99,7 @@ Flight Sheet → Miner → **Custom**, then fill in (LuckyPool example):
   [Releases](../../releases/latest), e.g.:
 
   ```
-  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.2/bugorcka-v0.1.2_hiveos_ub22.tar.gz
+  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.3/bugorcka-v0.1.3_hiveos_ub22.tar.gz
   ```
 - **Pool URL:** `btx-eu.lproute.com:8666` (add `stratum+ssl://` for TLS)
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
@@ -109,7 +109,7 @@ Or import the ready flight sheet as JSON (set your own wallet, worker and the
 release **Installation URL**):
 
 ```json
-{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.2/bugorcka-v0.1.2_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
+{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.3/bugorcka-v0.1.3_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TLS.
