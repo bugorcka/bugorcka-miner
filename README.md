@@ -39,9 +39,9 @@ Live hashrate, measured on real rigs (not `-benchmark`):
 
 | Architecture | Card | Power | Hashrate |
 |---|---|---|---|
-| Turing | RTX 2080 | 140 W | 0.27 H/s |
-| Ampere | RTX 3080 Ti | 230 W | 0.50 H/s |
-| Blackwell | RTX 5080 | 240 W | 1.00 H/s |
+| Turing | RTX 2080 | 115 W | 0.27 H/s |
+| Ampere | RTX 3080 Ti | 230 W | 0.57 H/s |
+| Blackwell | RTX 5080 | 240 W | 1.04 H/s |
 
 More cards land here as they get measured.
 
