@@ -23,6 +23,8 @@ Windows / Linux / HiveOS. Closed source, binary releases only.
   or plain streaming log for files and HiveOS
 - **JSON stats API** (`-api-port`) for HiveOS and external monitors
 - Per-GPU selection (`-d 0,1,2`), **intensity duty-cycling** (`-i 1..21`) to cap heat/power
+- **GPU overclocking** — per-card core/memory clock lock/offset, power limit (absolute or `%`), and fan control
+- **Automatic thermal pause** (`-tstop`/`-tstart`) — mining pauses when a card gets too hot, resumes once it cools
 - Self-contained binaries — no CUDA Toolkit needed on the rig, only the NVIDIA driver
 
 ## Dev fee
@@ -137,11 +139,29 @@ GPUs and load:
                              card between episodes -- 10 is about half load, 2 about 10%.
   -benchmark                Measure each selected GPU's hashrate and exit.
   -seconds <n>              Benchmark duration in seconds (default: 8).
+      --list-devices        List every CUDA GPU (index / PCI / name / VRAM / UUID) and exit --
+                             indices match -d and the OC/fan CSV positions below.
+
+GPU clocks / power (NVML, needs root/admin; nothing changes unless you pass a flag).
+Each value is one number for every card, or a CSV where position = GPU index (X = reset):
+  -lc, --lock-core <v|csv>     Lock core clock to a fixed MHz.
+  -lm, --lock-memory <v|csv>   Lock memory clock.
+  -oc, --offset-core <v|csv>   Core clock offset (can be negative).
+  -om, --offset-memory <v|csv> Memory clock offset (can be negative).
+  -pl, --power-limit <v|csv>   Power limit in watts (e.g. 230) or percent of the card's
+                             stock limit (e.g. 80%).
+  -fan, --fan <v|csv>       Fan speed 0-100% (X = back to the driver's auto curve).
+  -rlc, --reset-lock-clock  Reset clocks/offsets/power/fan on all -d cards.
+
+Thermal protection (off by default):
+  -tstop, --gpu-temp-stop <C>  Pause a card once it hits this temperature.
+  -tstart, --gpu-temp-start <C> Resume once it cools to this temperature (default: stop-5).
 
 Output:
   -fl, --fulllog            Plain streaming log instead of the live dashboard/TUI.
   -l, --log <name>          Also append the run log to this file (default: logminer).
   -nc, --nocolor            Disable colored output.
+  -ll, --log-level <lvl>    Log verbosity: error | warn | info | debug (default: info).
   -api-port <port>          Serve JSON mining stats on http://127.0.0.1:<port>/.
 
 Developer fee:
