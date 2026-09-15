@@ -24,10 +24,12 @@ It is licensed, not sold.
    cannot be lawfully excluded).
 
 3. DEVELOPER FEE. The Software mines on behalf of the Author for a small
-   percentage of mining time (the "developer fee", currently 2%), as described
-   in the accompanying README. The developer fee is a disclosed and integral
-   part of the Software. Interfering with, redirecting, or disabling it is a
-   material breach of this License.
+   percentage of mining time (the "developer fee"). The rate is set per
+   algorithm and disclosed in the accompanying README's Dev fee table
+   (currently 2% for btxv4, 5% for numen; additional algorithms may carry
+   their own rate as they are added). The developer fee is a disclosed and
+   integral part of the Software. Interfering with, redirecting, or disabling
+   it is a material breach of this License.
 
 4. THIRD-PARTY COMPONENTS. The Software includes third-party components that
    are licensed under their own terms; those terms govern those components.
