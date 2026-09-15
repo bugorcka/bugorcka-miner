@@ -4,23 +4,35 @@
 
 # bugorcka
 
-**High-performance CUDA GPU miner for BTX** (MatMul v4, algo `btxv4`).
+**High-performance multi-algorithm CUDA GPU miner.**
 Windows / Linux / HiveOS. Closed source, binary releases only.
 
-> Built from scratch and tuned at SASS level — beats every public BTX miner
-> we could measure against, on Turing, Ampere and Blackwell alike.
+> Built from scratch and tuned at SASS level — beats every public miner we
+> could measure against, on Turing, Ampere, Ada and Blackwell alike.
+
+## Algorithms
+
+| Algorithm | Coin | Consensus | Status |
+|---|---|---|---|
+| `btxv4` (MatMul v4) | BTX | GPU PoW | live |
+| `numen` (Proof of Scan) | NUMN | GPU PoW | live |
+
+More algorithms land here as new coins get added — this list grows, it
+doesn't get replaced.
 
 ## Features
 
-- **BTX / MatMul v4** (`btxv4`) — the current live algorithm (Epoch A, v4 chain)
+- **Multi-algorithm**: BTX (`btxv4`) and NUMEN (`numen`) mine from the same
+  binary, selected with `-a`
 - NVIDIA GPUs: **Turing and newer** — GeForce RTX 20xx / 30xx / 40xx / 50xx.
-  Verified on real hardware: RTX 2060 SUPER, 3080 Ti, 5070 Ti, 5080.
-  Pascal (GTX 10xx) and Volta (V100) are not supported — the algorithm needs the
-  int8 tensor instructions introduced with Turing. Datacenter cards
-  (A100 / H100 / B100) are coming in the next release
-- Pool mining (TCP / SSL-TLS stratum), including our **own stratum-bridge dialect**
-- Live **TUI dashboard** (hashrate sparkline, per-GPU temps/fans/power, pool status)
-  or plain streaming log for files and HiveOS
+  Verified on real hardware across both algorithms: RTX 2060 SUPER, 2070
+  SUPER, 3070, 3080, 3080 Ti, 4060 Ti, 5070 Ti, 5080.
+  Pascal (GTX 10xx) and Volta (V100) are not supported. Datacenter cards
+  (A100 / H100 / B100) are coming in a future release
+- Pool mining (TCP / SSL-TLS stratum) — each algorithm auto-detects its own
+  pool dialect, including our **own stratum-bridge dialect** for BTX
+- Live **TUI dashboard** (hashrate sparkline, per-GPU temps/fans/power, pool
+  status) or plain streaming log for files and HiveOS
 - **JSON stats API** (`-api-port`) for HiveOS and external monitors
 - Per-GPU selection (`-d 0,1,2`), **intensity duty-cycling** (`-i 1..21`) to cap heat/power
 - **GPU overclocking** — per-card core/memory clock lock/offset, power limit (absolute or `%`), and fan control
@@ -34,16 +46,30 @@ Each algorithm has its own default rate, set independently as new algorithms lan
 | Algorithm | Default | Raise it |
 |---|---|---|
 | `btxv4` | **2%** | `-df <n>` — values ≤ 2 mean 2, higher raises it |
+| `numen` | **5%** | `-df <n>` — values ≤ 5 mean 5, higher raises it |
 
 ## Performance
 
 Live hashrate, measured on real rigs (not `-benchmark`):
 
+**BTX (`btxv4`)**
+
 | Architecture | Card | Power | Hashrate |
 |---|---|---|---|
-| Turing | RTX 2080 | 115 W | 0.27 H/s |
-| Ampere | RTX 3080 Ti | 230 W | 0.57 H/s |
-| Blackwell | RTX 5080 | 240 W | 1.04 H/s |
+| Turing | RTX 2080 | 120 W | 0.30 H/s |
+| Ampere | RTX 3080 | 230 W | 0.60 H/s |
+| Ada | RTX 4060 Ti | 120 W | 0.41 H/s |
+| Blackwell | RTX 5080 | 250 W | 1.05 H/s |
+
+**NUMEN (`numen`)**
+
+| Architecture | Card | Power | Hashrate |
+|---|---|---|---|
+| Turing | RTX 2080 | 100 W | 300 KH/s |
+| Ampere | RTX 3080 | 140 W | 660 KH/s |
+| Ada | RTX 4060 Ti | 100 W | 550 KH/s |
+| Blackwell | RTX 5070 Ti | 120 W | 920 KH/s |
+| Blackwell | RTX 5080 | 150 W | 1100 KH/s |
 
 More cards land here as they get measured.
 
@@ -57,44 +83,51 @@ Grab the latest from **[Releases](../../releases/latest)**:
 | `bugorcka-vX.Y.Z_..._linux_ubuntu22.tar.gz` | Ubuntu 22.04+ / glibc 2.35+ distros |
 | `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS (Ubuntu 22 based images) |
 
+Every asset carries every algorithm — pick the coin with `-a`, no separate
+downloads needed.
+
 Requirements: a recent NVIDIA driver (for RTX 50xx use the newest available).
 No CUDA Toolkit needed on the rig.
 
 ## Supported pools
 
+**BTX**
 - **LuckyPool** — https://btx.luckypool.io/
   - EU endpoint: **`btx-eu.lproute.com:8666`** — works in both **SSL/TLS** and **plain TCP** mode.
 - Your own **stratum-bridge** (default `bridge` dialect), or any other BTX stratum pool.
 
+**NUMEN**
+- **ninjaraider** — TCP `numen.ninjaraider.com:44960`, SSL/TLS `:44961`.
+
 ## Quick start
 
-Pool (LuckyPool, SSL/TLS):
+BTX, pool (LuckyPool, SSL/TLS):
 
 ```
-bugorcka -o stratum+ssl://btx-eu.lproute.com:8666 -u btx1qyourwallet -w rig1
+bugorcka -a btxv4 -o stratum+ssl://btx-eu.lproute.com:8666 -u btx1qyourwallet -w rig1
 ```
 
-Same pool over plain TCP:
+NUMEN, pool (ninjaraider, plain TCP):
 
 ```
-bugorcka -o stratum+tcp://btx-eu.lproute.com:8666 -u btx1qyourwallet -w rig1
+bugorcka -a numen -o numen.ninjaraider.com:44960 -u nu7yourSS58address -w rig1
 ```
 
 Pick specific GPUs, half load, log to file:
 
 ```
-bugorcka -o pool-host:port -u btx1qyourwallet -d 0,1,2 -i 12 -l rig1
+bugorcka -a btxv4 -o pool-host:port -u btx1qyourwallet -d 0,1,2 -i 12 -l rig1
 ```
 
 Benchmark (no pool needed):
 
 ```
-bugorcka -benchmark -seconds 20
+bugorcka -a numen -benchmark -seconds 20
 ```
 
 ## HiveOS setup
 
-Flight Sheet → Miner → **Custom**, then fill in (LuckyPool example):
+Flight Sheet → Miner → **Custom**, then fill in:
 
 - **Miner name:** `bugorcka`
 - **Installation URL** — the `_hiveos_ub22.tar.gz` asset from
@@ -103,12 +136,15 @@ Flight Sheet → Miner → **Custom**, then fill in (LuckyPool example):
   ```
   https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.4/bugorcka-v0.1.4_hiveos_ub22.tar.gz
   ```
-- **Pool URL:** `btx-eu.lproute.com:8666` (add `stratum+ssl://` for TLS)
+- **Pool URL:** `btx-eu.lproute.com:8666` for BTX (add `stratum+ssl://` for
+  TLS), or `numen.ninjaraider.com:44960` for NUMEN
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
-- **Extra config arguments:** `-a btxv4` (append any other flags, single line, e.g. `-a btxv4 -i 18`)
+- **Extra config arguments:** `-a btxv4` or `-a numen` (append any other
+  flags on the same line, e.g. `-a numen -i 18`)
 
 Or import the ready flight sheet as JSON (set your own wallet, worker and the
-release **Installation URL**):
+release **Installation URL** — this example is BTX, swap `-a btxv4` for
+`-a numen` and the pool URL for a NUMEN sheet):
 
 ```json
 {"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.1.4/bugorcka-v0.1.4_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
@@ -128,10 +164,12 @@ Pool:
   -o <url>                  Pool address, e.g. stratum+ssl://btx-eu.lproute.com:8666
                              (host:port with no scheme also works, plain TCP). Any scheme
                              containing ssl/tls enables TLS.
-  -u <wallet>               Your BTX payout address (btx1...).
+  -u <wallet>               Your payout address for the selected algorithm's coin
+                             (btx1... for BTX, nu... SS58 for NUMEN).
   -w, --worker <name>       Worker name, sent as "WALLET.name" (default: rig1).
-      --pool-protocol <d>   Pool dialect: bridge (default), btxpool, stratum.
-  -p <pass>                 Pool password (default: x -- BTX pools ignore it).
+      --pool-protocol <d>   Pool dialect (BTX only, auto-detected otherwise): bridge
+                             (default), btxpool, stratum.
+  -p <pass>                 Pool password (default: x -- most pools ignore it).
 
 GPUs and load:
   -d, --devices <csv>       CUDA device indices to mine on, e.g. 0,1,2 (default: all).
@@ -165,12 +203,16 @@ Output:
   -api-port <port>          Serve JSON mining stats on http://127.0.0.1:<port>/.
 
 Developer fee:
-  -df, --devfee <n>         Developer fee, percent of mining time (default: 2, algorithm-specific).
+  -df, --devfee <n>         Developer fee, percent of mining time (default varies by
+                             algorithm, see the Dev fee table above).
 
 Other:
   -h, --help                Show help and exit.
-  -a, --algo <name>         Mining algorithm (btxv4, the default).
+  -a, --algo <name>         Mining algorithm: btxv4 (default) or numen.
 ```
+
+Solo/RPC mining (`-address`, own daemon) is BTX-only — NUMEN runs on a
+Substrate chain and is pool-only for now.
 
 ## Notes
 
