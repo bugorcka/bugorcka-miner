@@ -68,7 +68,7 @@ Live hashrate, measured on real rigs (not `-benchmark`):
 | Turing | RTX 2080 | 100 W | 300 KH/s |
 | Ampere | RTX 3080 | 140 W | 660 KH/s |
 | Ada | RTX 4060 Ti | 100 W | 550 KH/s |
-| Blackwell | RTX 5070 Ti | 120 W | 920 KH/s |
+| Blackwell | RTX 5070 Ti | 123 W | 1036 KH/s |
 | Blackwell | RTX 5080 | 150 W | 1100 KH/s |
 
 More cards land here as they get measured.
