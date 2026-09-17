@@ -80,20 +80,24 @@ Live hashrate, measured on real rigs (not `-benchmark`):
 
 | Architecture | Card | Power | Hashrate |
 |---|---|---|---|
-| Turing | RTX 2080 | 120 W | 0.30 H/s |
-| Ampere | RTX 3080 | 230 W | 0.60 H/s |
+| Turing | RTX 2060 SUPER | 100 W | 0.20 H/s |
+| Turing | RTX 2080 | 120 W | 0.28 H/s |
+| Ampere | RTX 3080 | 200 W | 0.52 H/s |
+| Ampere | RTX 3080 Ti | 230 W | 0.60 H/s |
 | Ada | RTX 4060 Ti | 120 W | 0.41 H/s |
+| Blackwell | RTX 5070 Ti | 220 W | 0.89 H/s |
 | Blackwell | RTX 5080 | 250 W | 1.05 H/s |
 
 **NUMEN (`numen`)**
 
 | Architecture | Card | Power | Hashrate |
 |---|---|---|---|
-| Turing | RTX 2080 | 100 W | 300 KH/s |
-| Ampere | RTX 3080 | 140 W | 660 KH/s |
-| Ada | RTX 4060 Ti | 100 W | 550 KH/s |
-| Blackwell | RTX 5070 Ti | 123 W | 1036 KH/s |
-| Blackwell | RTX 5080 | 150 W | 1100 KH/s |
+| Turing | RTX 2080 | 90 W | 350 KH/s |
+| Ampere | RTX 3080 | 155 W | 850 KH/s |
+| Ampere | RTX 3080 Ti | 165 W | 900 KH/s |
+| Ada | RTX 4060 Ti | 100 W | 700 KH/s |
+| Blackwell | RTX 5070 Ti | 130 W | 1200 KH/s |
+| Blackwell | RTX 5080 | 160 W | 1400 KH/s |
 
 More cards land here as they get measured.
 
