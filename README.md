@@ -318,3 +318,4 @@ Substrate chain and is pool-only for now.
 (c) 2026 Bugorcka. All rights reserved. Proprietary software - see [LICENSE](LICENSE).
 Third-party components and their licenses are listed in
 [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).
+
