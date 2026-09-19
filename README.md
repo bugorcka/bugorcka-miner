@@ -16,6 +16,7 @@
 [![Downloads](https://img.shields.io/github/downloads/bugorcka/bugorcka-miner/total?label=downloads&logo=github)](https://github.com/bugorcka/bugorcka-miner/releases)
 [![License](https://img.shields.io/badge/license-proprietary-lightgrey)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/bugorcka/bugorcka-miner)](../../issues)
+[![Discord](https://img.shields.io/badge/Discord-join%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/BMZ3fQgyT)
 
 Multi-algorithm CUDA GPU miner. Windows / Linux / HiveOS. Closed source, binary
 releases only. The banner above is not a logo - it is `bugorcka`'s actual
@@ -299,6 +300,7 @@ Substrate chain and is pool-only for now.
   [Supported GPUs](#supported-gpus): Pascal (GTX 10xx) and Volta (V100) are
   not supported by either algorithm.
 - Questions, bug reports, feature requests -> [Issues](../../issues).
+- Live support and general discussion -> [Discord](https://discord.gg/BMZ3fQgyT).
 
 ## Notes
 
