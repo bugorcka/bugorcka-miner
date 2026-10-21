@@ -26,13 +26,11 @@ This repository hosts the official release packages. Grab the latest build from 
 
 ## On this page
 
-- [Algorithms](#algorithms)
+- [Algorithms, pools and dev fee](#algorithms-pools-and-dev-fee)
 - [Features](#features)
-- [Dev fee](#dev-fee)
 - [Performance](#performance)
 - [Downloads](#downloads)
 - [Supported GPUs](#supported-gpus)
-- [Supported pools](#supported-pools)
 - [Quick start](#quick-start)
 - [HiveOS setup](#hiveos-setup)
 - [Command line](#command-line)
@@ -40,12 +38,15 @@ This repository hosts the official release packages. Grab the latest build from 
 - [Notes](#notes)
 - [License](#license)
 
-## Algorithms
+## Algorithms, pools and dev fee
 
-| Algorithm | Coin | Consensus | Status |
-|---|---|---|---|
-| `btxv4` (MatMul v4) | BTX | GPU PoW | live |
-| `numen` (Proof of Scan) | NUMN | GPU PoW | live |
+One binary carries every algorithm - pick the coin with `-a`. Each algorithm has
+its own default dev fee, set independently as new algorithms land.
+
+| Algorithm (`-a`) | Coin | Consensus | Pools | Dev fee | Status |
+|---|---|---|---|---|---|
+| `btxv4` (MatMul v4) | BTX | GPU PoW | [LuckyPool](https://btx.luckypool.io/) `btx-eu.lproute.com:8666` (SSL/TLS and plain TCP) · your own stratum-bridge · any BTX stratum pool | **2%**, raise with `-df <n>` (values <= 2 mean 2) | live |
+| `numen` (Proof of Scan) | NUMN | GPU PoW | ninjaraider `numen.ninjaraider.com` - TCP `:44960`, SSL/TLS `:44961` | **5%**, raise with `-df <n>` (values <= 5 mean 5) | live |
 
 More algorithms land here as new coins get added - this list grows, it
 doesn't get replaced.
@@ -63,15 +64,6 @@ doesn't get replaced.
 - **GPU overclocking** - per-card core/memory clock lock/offset, power limit (absolute or `%`), and fan control
 - **Automatic thermal pause** (`-tstop`/`-tstart`) - mining pauses when a card gets too hot, resumes once it cools
 - Self-contained binaries - no CUDA Toolkit needed on the rig, only the NVIDIA driver
-
-## Dev fee
-
-Each algorithm has its own default rate, set independently as new algorithms land.
-
-| Algorithm | Default | Raise it |
-|---|---|---|
-| `btxv4` | **2%** | `-df <n>` - values <= 2 mean 2, higher raises it |
-| `numen` | **5%** | `-df <n>` - values <= 5 mean 5, higher raises it |
 
 ## Performance
 
@@ -136,21 +128,6 @@ same way. Verified on real hardware: RTX 2060 SUPER, 2070 SUPER, 2080, 3070,
 
 **Not supported:** Pascal (GTX 10xx) and Volta (V100) - both algorithms need
 int8 tensor instructions neither architecture has.
-
-## Supported pools
-
-**BTX**
-
-| Pool | Endpoint | Notes |
-|---|---|---|
-| [LuckyPool](https://btx.luckypool.io/) | `btx-eu.lproute.com:8666` | works in both SSL/TLS and plain TCP mode |
-| Your own stratum-bridge | default `bridge` dialect | or any other BTX stratum pool |
-
-**NUMEN**
-
-| Pool | Endpoint |
-|---|---|
-| ninjaraider | TCP `numen.ninjaraider.com:44960`, SSL/TLS `:44961` |
 
 ## Quick start
 
