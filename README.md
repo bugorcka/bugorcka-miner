@@ -45,7 +45,7 @@ its own default dev fee, set independently as new algorithms land.
 
 | Algorithm (`-a`) | Coin | Consensus | Pools | Dev fee | Status |
 |---|---|---|---|---|---|
-| `btxv4` (MatMul v4) | BTX | GPU PoW | [LuckyPool](https://btx.luckypool.io/) `btx-eu.lproute.com:8666` (SSL/TLS and plain TCP) · your own stratum-bridge · any BTX stratum pool | **2%**, raise with `-df <n>` (values <= 2 mean 2) | live |
+| `btxv4` (MatMul v4) | BTX | GPU PoW | [LuckyPool](https://btx.luckypool.io/) `btx-eu.lproute.com:8666` (SSL/TLS and plain TCP) | **2%**, raise with `-df <n>` (values <= 2 mean 2) | live |
 | `numen` (Proof of Scan) | NUMN | GPU PoW | ninjaraider `numen.ninjaraider.com` - TCP `:44960`, SSL/TLS `:44961` | **5%**, raise with `-df <n>` (values <= 5 mean 5) | live |
 
 More algorithms land here as new coins get added - this list grows, it
