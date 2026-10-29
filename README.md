@@ -217,15 +217,35 @@ Flight Sheet -> Miner -> **Custom**, then fill in:
 - **Extra config arguments:** `-a btxv4`, `-a numen` or `-a sha256d`
   (append any other flags on the same line, e.g. `-a numen -i 18`)
 
-Or import the ready flight sheet as JSON (set your own wallet, worker and the
-release **Installation URL** - this example is BTX, swap `-a btxv4` for
-`-a numen` and the pool URL for a NUMEN sheet):
+Or import a ready flight sheet as JSON (Flight Sheet -> Miner -> Custom ->
+Import, or paste into the JSON import field) - set your own wallet first:
+
+BTX:
 
 ```json
 {"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TLS.
+
+NUMEN (ninjaraider pool, plain TCP):
+
+```json
+{"name":"LP_NUMEN_bugorcka","isFavorite":true,"items":[{"coin":"NUMN","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://numen.ninjaraider.com:44960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a numen "},"pool_geo":[]}]}
+```
+
+Set `"pool_ssl":true` and `"url":"stratum+ssl://numen.ninjaraider.com:44961"`
+for TLS, or swap the pool URL for rplant/nitopool/diffpool from the table
+below.
+
+CSD (this pool needs SSL, so `pool_ssl` is already `true`):
+
+```json
+{"name":"LP_CSD_bugorcka","isFavorite":true,"items":[{"coin":"CSD","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://csd-eu.lproute.com:8760","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a sha256d "},"pool_geo":[]}]}
+```
+
+Pick the closest region (`csd-eu`, `csd-ru`, ...) in both the URL and the
+pool field if a region is blocked for you.
 
 Hashrate and per-GPU stats show up natively in the Hive dashboard
 (the package wires the JSON stats API to the Hive agent).
