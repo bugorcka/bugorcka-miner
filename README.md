@@ -101,7 +101,7 @@ The dev fee is not subtracted from these figures (the 1% fee takes that share of
 
 | Architecture | Card | Power | Hashrate | Efficiency |
 |---|---|---|---|---|
-| Turing | RTX 2060 SUPER | 98 W | 1.68 GH/s | 17.2 MH/s per W |
+| Turing | RTX 2060 SUPER | 82 W | 1.68 GH/s | 20.64 MH/s per W |
 | Ampere | RTX 3070 | 105 W | 2.27 GH/s | 21.7 MH/s per W |
 | Ampere | RTX 3080 | 175 W | 3.35 GH/s | 19.2 MH/s per W |
 | Ada | RTX 4060 Ti | 102 W | 2.79 GH/s | 27.4 MH/s per W |
