@@ -17,6 +17,7 @@
 [![License](https://img.shields.io/badge/license-proprietary-lightgrey)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/bugorcka/bugorcka-miner)](../../issues)
 [![Discord](https://img.shields.io/badge/Discord-join%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/BMZ3fQgyT)
+[![Telegram](https://img.shields.io/badge/Telegram-join%20channel-26A5E4?logo=telegram&logoColor=white)](https://t.me/bugorcka_miner)
 
 Multi-algorithm CUDA GPU miner. Windows / Linux / HiveOS. Closed source, binary
 releases only. The banner above is not a logo - it is `bugorcka`'s actual
@@ -50,13 +51,14 @@ the other algorithms use a fixed rate and ignore it.
 | `btxv4` (MatMul v4) | BTX | GPU PoW | [LuckyPool](https://btx.luckypool.io/) `btx-eu.lproute.com:8666` (SSL/TLS and plain TCP) | **2%**, raise with `-df <n>` (values <= 2 mean 2) | live |
 | `numen` (Proof of Scan) | NUMN | GPU PoW | ninjaraider `numen.ninjaraider.com` - TCP `:44960`, SSL/TLS `:44961` · rplant `stratum-eu.rplant.xyz:7189` (TCP, SSL/TLS `:17189`; regions eu, ru, asia, na) · nitopool `stratum.nitopool.online:3028` · diffpool `http://stratum.diffpool.xyz:8010` | **5%** (fixed) | live |
 | `sha256d` (Compute Substrate) | CSD | GPU PoW | LuckyPool `csd-<region>.lproute.com:8760` (SSL/TLS) | **1%** (fixed) | live |
+| `sha3_256` (RGRPOW01) | RIGOR (ORU) | GPU PoW | ninjaraider `ninjaraider.com` - TCP `:45100`, SSL/TLS `:45101` · AriaPool `rgr.ariabrain.com:3356` (TCP) · Gozero `https://rgr.pool.gozero.trade/rpc` (HTTPS JSON-RPC, not stratum) | **2%** (fixed) | live |
 
 More algorithms land here as new coins get added - this list grows, it
 doesn't get replaced.
 
 ## Features
 
-- **Multi-algorithm**: BTX (`btxv4`), NUMEN (`numen`) and CSD (`sha256d`) mine from the
+- **Multi-algorithm**: BTX (`btxv4`), NUMEN (`numen`), CSD (`sha256d`) and RIGOR (`sha3_256`) mine from the
   same binary, selected with `-a`
 - **Pool list with automatic switching** for NUMEN: `-o ninjaraider,rplant-eu,nitopool` - main pool first, the rest are backups
   (known pools also by short name)
@@ -107,6 +109,17 @@ The dev fee is not subtracted from these figures (the 1% fee takes that share of
 | Ada | RTX 4060 Ti | 99 W | 2.79 GH/s | 28.13 MH/s per W |
 | Blackwell | RTX 5070 Ti | 185 W | 6.16 GH/s | 33.2 MH/s per W |
 
+**RIGOR (`sha3_256`)**
+
+The dev fee is not subtracted from these figures (the 2% fee takes that share of mining time). Pool: ninjaraider.
+
+| Architecture | Card | Power | Hashrate | Efficiency |
+|---|---|---|---|---|
+| Turing | RTX 2060 SUPER | 69 W | 822.7 MH/s | 11.89 MH/s per W |
+| Ampere | RTX 3070 | 85 W | 1102.0 MH/s | 13.04 MH/s per W |
+| Ada | RTX 4060 Ti | 80 W | 1360.0 MH/s | 16.92 MH/s per W |
+| Blackwell | RTX 5070 Ti | 140 W | 3139.6 MH/s | 22.41 MH/s per W |
+
 More cards land here as they get measured.
 
 ## Downloads
@@ -115,7 +128,7 @@ Grab the latest from **[Releases](../../releases/latest)**:
 
 | Asset | Platform |
 |---|---|
-| `bugorcka-vX.Y.Z_..._win64.zip` | Windows 10/11 x64 (example `start.bat` inside) |
+| `bugorcka-vX.Y.Z_..._win64.zip` | Windows 10/11 x64 (one example `start_<coin>.bat` per coin inside) |
 | `bugorcka-vX.Y.Z_..._linux_ubuntu22.tar.gz` | Ubuntu 22.04+ / glibc 2.35+ distros |
 | `bugorcka-vX.Y.Z_..._hiveos_ub22.tar.gz` | HiveOS (Ubuntu 22 based images) |
 
@@ -188,6 +201,24 @@ CSD, pool (LuckyPool, SSL/TLS):
 bugorcka -a sha256d -o stratum+ssl://csd-eu.lproute.com:8760 -u yourCSDaddress -w rig1
 ```
 
+RIGOR, pool (ninjaraider, SSL/TLS):
+
+```
+bugorcka -a sha3_256 -o stratum+ssl://ninjaraider.com:45101 -u rg1qyourwalletaddress -w rig1
+```
+
+RIGOR, pool (AriaPool, plain TCP):
+
+```
+bugorcka -a sha3_256 -o stratum+tcp://rgr.ariabrain.com:3356 -u rg1qyourwalletaddress -w rig1
+```
+
+RIGOR, pool (Gozero, HTTPS JSON-RPC, no stratum):
+
+```
+bugorcka -a sha3_256 -o https://rgr.pool.gozero.trade/rpc -u rg1qyourwalletaddress -w rig1
+```
+
 Pick specific GPUs, half load, log to file:
 
 ```
@@ -209,7 +240,7 @@ Flight Sheet -> Miner -> **Custom**, then fill in:
   [Releases](../../releases/latest), e.g.:
 
   ```
-  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz
+  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz
   ```
 - **Pool URL:** `btx-eu.lproute.com:8666` for BTX (add `stratum+ssl://` for
   TLS), `numen.ninjaraider.com:44960` for NUMEN, or `csd-eu.lproute.com:8760` (with `stratum+ssl://`) for CSD
@@ -223,7 +254,7 @@ Import, or paste into the JSON import field) - set your own wallet first:
 BTX:
 
 ```json
-{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
+{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TLS.
@@ -231,7 +262,7 @@ Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TL
 NUMEN (ninjaraider pool, plain TCP):
 
 ```json
-{"name":"LP_NUMEN_bugorcka","isFavorite":true,"items":[{"coin":"NUMN","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://numen.ninjaraider.com:44960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a numen "},"pool_geo":[]}]}
+{"name":"LP_NUMEN_bugorcka","isFavorite":true,"items":[{"coin":"NUMN","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://numen.ninjaraider.com:44960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a numen "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://numen.ninjaraider.com:44961"`
@@ -241,11 +272,19 @@ below.
 CSD (this pool needs SSL, so `pool_ssl` is already `true`):
 
 ```json
-{"name":"LP_CSD_bugorcka","isFavorite":true,"items":[{"coin":"CSD","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://csd-eu.lproute.com:8760","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.3.0/bugorcka-v0.3.0_hiveos_ub22.tar.gz","user_config":"-a sha256d "},"pool_geo":[]}]}
+{"name":"LP_CSD_bugorcka","isFavorite":true,"items":[{"coin":"CSD","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://csd-eu.lproute.com:8760","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a sha256d "},"pool_geo":[]}]}
 ```
 
 Pick the closest region (`csd-eu`, `csd-ru`, ...) in both the URL and the
 pool field if a region is blocked for you.
+
+RIGOR (ninjaraider, TLS):
+
+```json
+{"name":"NIN_RIGOR_bugorcka","isFavorite":true,"items":[{"coin":"ORU","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://ninjaraider.com:45101","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a sha3_256 "},"pool_geo":[]}]}
+```
+
+For AriaPool use `"pool_ssl":false` and `"url":"stratum+tcp://rgr.ariabrain.com:3356"`.
 
 Hashrate and per-GPU stats show up natively in the Hive dashboard
 (the package wires the JSON stats API to the Hive agent).
@@ -413,6 +452,9 @@ Substrate chain and CSD is pool-only for now. Use pool mode.
   are exactly what the Releases page publishes, nothing else. Add an exclusion if needed.
 - Multi-GPU rigs: one instance drives all cards; separate nonce ranges per card,
   no duplicate shares.
+- RIGOR: the miner learns how many messages each pool accepts per connection and writes it to
+  `bugorcka_pool_budget.txt` in the working directory (lines `host:port number`). Safe to delete,
+  it is recreated on the next start.
 
 ## License
 
