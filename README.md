@@ -52,15 +52,16 @@ the other algorithms use a fixed rate and ignore it.
 | `numen` (Proof of Scan) | NUMN | GPU PoW | ninjaraider `numen.ninjaraider.com` - TCP `:44960`, SSL/TLS `:44961` · rplant `stratum-eu.rplant.xyz:7189` (TCP, SSL/TLS `:17189`; regions eu, ru, asia, na) · nitopool `stratum.nitopool.online:3028` · diffpool `http://stratum.diffpool.xyz:8010` | **5%** (fixed) | live |
 | `sha256d` (Compute Substrate) | CSD | GPU PoW | LuckyPool `csd-<region>.lproute.com:8760` (SSL/TLS) | **1%** (fixed) | live |
 | `sha3_256` (RGRPOW01) | RIGOR (ORU) | GPU PoW | ninjaraider `ninjaraider.com` - TCP `:45100`, SSL/TLS `:45101` · AriaPool `rgr.ariabrain.com:3356` (TCP) · Gozero `https://rgr.pool.gozero.trade/rpc` (HTTPS JSON-RPC, not stratum) | **2%** (fixed) | live |
+| `midstate` (Midstate Walk) | Midstate (MDS) | GPU PoW | [LuckyPool](https://midstate.luckypool.io) `<region>.lproute.com:8960` (TCP and SSL/TLS on the same port; 16 regions) · Official Cypherpunk `rpc.cypherpunk.gold:3333` (TCP) | **1%** (fixed) | live |
 
 More algorithms land here as new coins get added - this list grows, it
 doesn't get replaced.
 
 ## Features
 
-- **Multi-algorithm**: BTX (`btxv4`), NUMEN (`numen`), CSD (`sha256d`) and RIGOR (`sha3_256`) mine from the
+- **Multi-algorithm**: BTX (`btxv4`), NUMEN (`numen`), CSD (`sha256d`), RIGOR (`sha3_256`) and Midstate (`midstate`) mine from the
   same binary, selected with `-a`
-- **Pool list with automatic switching** for NUMEN: `-o ninjaraider,rplant-eu,nitopool` - main pool first, the rest are backups
+- **Pool list with automatic switching** for NUMEN and Midstate: `-o ninjaraider,rplant-eu,nitopool` or `-o luckypool,cypherpunk` - main pool first, the rest are backups
   (known pools also by short name)
 - Pool mining (TCP / SSL-TLS stratum) - each algorithm auto-detects its own
   pool dialect, including our **own stratum-bridge dialect** for BTX
@@ -119,6 +120,17 @@ The dev fee is not subtracted from these figures (the 2% fee takes that share of
 | Ampere | RTX 3070 | 85 W | 1102.0 MH/s | 13.04 MH/s per W |
 | Ada | RTX 4060 Ti | 80 W | 1360.0 MH/s | 16.92 MH/s per W |
 | Blackwell | RTX 5070 Ti | 140 W | 3139.6 MH/s | 22.41 MH/s per W |
+
+**Midstate Walk (`midstate`)**
+
+Pool: LuckyPool.
+
+| Architecture | Card | Power | Hashrate |
+|---|---|---|---|
+| Turing | RTX 2060 SUPER | 72.1 W | 831 H/s |
+| Ampere | RTX 3070 | 86.7 W | 1812 H/s |
+| Ada | RTX 4060 Ti | 64.6 W | 2534 H/s |
+| Blackwell | RTX 5070 Ti | 82.3 W | 3437 H/s |
 
 More cards land here as they get measured.
 
@@ -219,6 +231,30 @@ RIGOR, pool (Gozero, HTTPS JSON-RPC, no stratum):
 bugorcka -a sha3_256 -o https://rgr.pool.gozero.trade/rpc -u rg1qyourwalletaddress -w rig1
 ```
 
+Midstate, pool (LuckyPool, EU, short name):
+
+```
+bugorcka -a midstate -o luckypool -u yourMSSaddress -w rig1
+```
+
+Midstate, pool (LuckyPool, SSL/TLS):
+
+```
+bugorcka -a midstate -o luckypool-ssl -u yourMSSaddress -w rig1
+```
+
+Midstate, pool (Official Cypherpunk, plain TCP):
+
+```
+bugorcka -a midstate -o cypherpunk -u yourMSSaddress -w rig1
+```
+
+Midstate, several pools with automatic switching (short names):
+
+```
+bugorcka -a midstate -o luckypool,cypherpunk -u yourMSSaddress -w rig1
+```
+
 Pick specific GPUs, half load, log to file:
 
 ```
@@ -240,12 +276,12 @@ Flight Sheet -> Miner -> **Custom**, then fill in:
   [Releases](../../releases/latest), e.g.:
 
   ```
-  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz
+  https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz
   ```
 - **Pool URL:** `btx-eu.lproute.com:8666` for BTX (add `stratum+ssl://` for
-  TLS), `numen.ninjaraider.com:44960` for NUMEN, or `csd-eu.lproute.com:8760` (with `stratum+ssl://`) for CSD
+  TLS), `numen.ninjaraider.com:44960` for NUMEN, `csd-eu.lproute.com:8760` (with `stratum+ssl://`) for CSD, or `eu.lproute.com:8960` for Midstate
 - **Wallet and worker template:** `%WAL%.%WORKER_NAME%`
-- **Extra config arguments:** `-a btxv4`, `-a numen` or `-a sha256d`
+- **Extra config arguments:** `-a btxv4`, `-a numen`, `-a sha256d`, `-a sha3_256` or `-a midstate`
   (append any other flags on the same line, e.g. `-a numen -i 18`)
 
 Or import a ready flight sheet as JSON (Flight Sheet -> Miner -> Custom ->
@@ -254,7 +290,7 @@ Import, or paste into the JSON import field) - set your own wallet first:
 BTX:
 
 ```json
-{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
+{"name":"LP_BTX_bugorcka","isFavorite":true,"items":[{"coin":"BTX","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://btx-eu.lproute.com:8666","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz","user_config":"-a btxv4 "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TLS.
@@ -262,7 +298,7 @@ Set `"pool_ssl":true` and `"url":"stratum+ssl://btx-eu.lproute.com:8666"` for TL
 NUMEN (ninjaraider pool, plain TCP):
 
 ```json
-{"name":"LP_NUMEN_bugorcka","isFavorite":true,"items":[{"coin":"NUMN","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://numen.ninjaraider.com:44960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a numen "},"pool_geo":[]}]}
+{"name":"LP_NUMEN_bugorcka","isFavorite":true,"items":[{"coin":"NUMN","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://numen.ninjaraider.com:44960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz","user_config":"-a numen "},"pool_geo":[]}]}
 ```
 
 Set `"pool_ssl":true` and `"url":"stratum+ssl://numen.ninjaraider.com:44961"`
@@ -272,7 +308,7 @@ below.
 CSD (this pool needs SSL, so `pool_ssl` is already `true`):
 
 ```json
-{"name":"LP_CSD_bugorcka","isFavorite":true,"items":[{"coin":"CSD","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://csd-eu.lproute.com:8760","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a sha256d "},"pool_geo":[]}]}
+{"name":"LP_CSD_bugorcka","isFavorite":true,"items":[{"coin":"CSD","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://csd-eu.lproute.com:8760","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz","user_config":"-a sha256d "},"pool_geo":[]}]}
 ```
 
 Pick the closest region (`csd-eu`, `csd-ru`, ...) in both the URL and the
@@ -281,10 +317,18 @@ pool field if a region is blocked for you.
 RIGOR (ninjaraider, TLS):
 
 ```json
-{"name":"NIN_RIGOR_bugorcka","isFavorite":true,"items":[{"coin":"ORU","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://ninjaraider.com:45101","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.4.0/bugorcka-v0.4.0_hiveos_ub22.tar.gz","user_config":"-a sha3_256 "},"pool_geo":[]}]}
+{"name":"NIN_RIGOR_bugorcka","isFavorite":true,"items":[{"coin":"ORU","pool_ssl":true,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+ssl://ninjaraider.com:45101","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz","user_config":"-a sha3_256 "},"pool_geo":[]}]}
 ```
 
 For AriaPool use `"pool_ssl":false` and `"url":"stratum+tcp://rgr.ariabrain.com:3356"`.
+
+Midstate (LuckyPool EU, plain TCP):
+
+```json
+{"name":"LP_MDS_bugorcka","isFavorite":true,"items":[{"coin":"MDS","pool_ssl":false,"dpool_ssl":false,"miner":"custom","miner_alt":"bugorcka","miner_config":{"url":"stratum+tcp://eu.lproute.com:8960","miner":"bugorcka","template":"%WAL%.%WORKER_NAME%","install_url":"https://github.com/bugorcka/bugorcka-miner/releases/download/v0.5.0/bugorcka-v0.5.0_hiveos_ub22.tar.gz","user_config":"-a midstate "},"pool_geo":[]}]}
+```
+
+Set `"pool_ssl":true` and `"url":"stratum+ssl://eu.lproute.com:8960"` for TLS.
 
 Hashrate and per-GPU stats show up natively in the Hive dashboard
 (the package wires the JSON stats API to the Hive agent).
@@ -295,9 +339,9 @@ Flags you'll reach for most:
 
 | Flag | What it does |
 |---|---|
-| `-a, --algo <name>` | Mining algorithm (required): `btxv4`, `numen` or `sha256d` |
+| `-a, --algo <name>` | Mining algorithm (required): `btxv4`, `numen`, `sha256d`, `sha3_256` or `midstate` |
 | `--profile <name>` | CSD (`sha256d`) only: `speed` = maximum hashrate, `eff` = maximum hashrate per watt |
-| `-o <url[,url2,...]>` | Pool address, e.g. `stratum+ssl://btx-eu.lproute.com:8666` (plain `host:port` works too). NUMEN: a comma-separated list = main pool then backups, known pools by short name (`ninjaraider`, `rplant[-eu\|-ru\|-asia\|-na]`, `nitopool`, `diffpool`, add `-ssl` for TLS) |
+| `-o <url[,url2,...]>` | Pool address, e.g. `stratum+ssl://btx-eu.lproute.com:8666` (plain `host:port` works too). NUMEN: a comma-separated list = main pool then backups, known pools by short name (`ninjaraider`, `rplant[-eu\|-ru\|-asia\|-na]`, `nitopool`, `diffpool`, add `-ssl` for TLS). Midstate: a list works the same way, short names `luckypool[-<region>][-ssl]` and `cypherpunk` |
 | `-u <wallet>` | Payout address for the selected algorithm's coin |
 | `-w, --worker <name>` | Worker name, sent as `WALLET.name` (default: `rig1`) |
 | `-d, --devices <csv>` | GPU indices to mine on, e.g. `0,1,2` (default: all) |
@@ -320,9 +364,10 @@ Usage:
 
 Pool:
   -o <url[,url2,...]>       Pool address, e.g. stratum+ssl://btx.ninjaraider.com:44921
-                             numen only: a comma-separated list = main pool first, then backups
+                             numen and midstate: a comma-separated list = main pool first, then backups
                              (automatic switching); known pools also by short name:
-                             ninjaraider, rplant[-eu|-ru|-asia|-na], nitopool, diffpool, add -ssl for TLS.
+                             ninjaraider, rplant[-eu|-ru|-asia|-na], nitopool, diffpool, add -ssl for TLS;
+                             midstate: luckypool[-<region>][-ssl], cypherpunk.
                              (host:port with no scheme also works, plain TCP). Any scheme
                              containing ssl/tls enables TLS.
   -u <wallet>               Your BTX payout address (btx1...).
@@ -401,7 +446,7 @@ Developer fee:
 
 Other:
   -h, --help                Show this help and exit.
-  -a, --algo <name>         Mining algorithm, REQUIRED: btxv4, numen, or sha256d.
+  -a, --algo <name>         Mining algorithm, REQUIRED: btxv4, numen, sha256d, sha3_256, or midstate.
       --profile <name>      Algo profile (sha256d: speed = max hashrate, eff = max hashrate per watt).
 
 Examples:
@@ -413,10 +458,10 @@ Examples:
   bugorcka -address <payout-address> -rpcuser me -rpcpassword secret
 
 Note: solo mining needs the selected algorithm to implement a daemon/RPC backend. None of the
-currently compiled algorithms (btxv4, numen, sha256d) do -- solo flags are parsed but refused at
+currently compiled algorithms (btxv4, numen, sha256d, sha3_256, midstate) do -- solo flags are parsed but refused at
 startup; use pool mode.
 
-Available algorithms: btxv4, numen, sha256d
+Available algorithms: btxv4, numen, sha256d, sha3_256, midstate
 ```
 
 Solo/RPC mining (`-address`, own daemon) is not available in this release - NUMEN runs on a
